@@ -56,9 +56,4 @@ def detect_service(target_ip, port):
         print(f"Port {port} does not have a recognized service.")
 ```
 
-Conclusion:
-In this blog post, we explored the inner workings of Nmap and learned how to build our own network scanner tool using Python. By understanding techniques like host discovery, port scanning, and service detection, we can develop powerful tools to assess the security posture of our networks. Remember to always use such tools responsibly and with proper authorization.
 
-So,in this repository i will go ahead and unleash my creativity!To build upon these foundations, explore additional scanning techniques, implement reporting functionalities, or even create a user-friendly graphical interface. The possibilities are endless when it comes to building your own network scanner tool with Python!
-
-Happy scanning!
