@@ -1,2 +1,2 @@
 # Sudo_Nmap
-Nmap scripts and adjustments to gather more and more information as much as we can. 
+Sudo_Nmap is an port scanning tool i am creating for understanding the whole concept that how nmap scans ports by simply creating a python port scanner.
