@@ -1,0 +1,64 @@
+Building a Network Scanner Tool with Python:
+Now that we understand the inner workings of Nmap, let's dive into building our own network scanner tool using Python. Python provides an extensive set of libraries that make it an excellent choice for network scanning projects. Here's a step-by-step guide to get you started:
+
+Step 1: Setting Up the Environment:
+To begin, ensure you have Python installed on your system. You can download the latest version from the official Python website (https://www.python.org/downloads/). Additionally, we'll be using the Scapy library for packet manipulation, so make sure to install it by running the command `pip install scapy` in your terminal.
+
+Step 2: Importing Required Libraries:
+In your Python script, start by importing the necessary libraries. We'll be using Scapy for packet crafting and manipulation, as well as other standard libraries for various functionalities:
+
+```python
+import scapy.all as scapy
+import argparse
+import socket
+import sys
+```
+
+Step 3: Parsing Command-Line Arguments:
+To make our tool flexible, we'll use the argparse library to handle command-line arguments. This will allow users to specify the target IP address or range, scanning techniques, output format, etc., directly from the command line.
+
+Step 4: Implementing Host Discovery:
+Using Scapy, we can craft ICMP echo requests (ping) packets to determine live hosts on a network. We can then analyze the responses to identify active hosts:
+
+```python
+def discover_hosts(target_ip):
+    icmp_request = scapy.IP(dst=target_ip)/scapy.ICMP()
+    response = scapy.sr1(icmp_request, timeout=1, verbose=False)
+    if response:
+        print(f"Host {target_ip} is up!")
+    else:
+        print(f"Host {target_ip} is down.")
+```
+
+Step 5: Implementing Port Scanning:
+To scan for open ports on a target host, we can use Scapy's TCP SYN scan technique. This involves crafting TCP SYN packets and analyzing the responses to identify open ports:
+
+```python
+def scan_ports(target_ip, start_port, end_port):
+    for port in range(start_port, end_port+1):
+        tcp_syn_scan = scapy.IP(dst=target_ip)/scapy.TCP(dport=port, flags="S")
+        response = scapy.sr1(tcp_syn_scan, timeout=1, verbose=False)
+        if response and response.haslayer(scapy.TCP) and response.getlayer(scapy.TCP).flags == 0x12:
+            print(f"Port {port} is open!")
+        else:
+            print(f"Port {port} is closed.")
+```
+
+Step 6: Adding Service Detection:
+To determine the type and version of services running on open ports, we can send specific probes and analyze the responses. This can be done using Scapy or by leveraging existing libraries like `socket`:
+
+```python
+def detect_service(target_ip, port):
+    try:
+        service_name = socket.getservbyport(port)
+        print(f"Port {port} is running {service_name}.")
+    except OSError:
+        print(f"Port {port} does not have a recognized service.")
+```
+
+Conclusion:
+In this blog post, we explored the inner workings of Nmap and learned how to build our own network scanner tool using Python. By understanding techniques like host discovery, port scanning, and service detection, we can develop powerful tools to assess the security posture of our networks. Remember to always use such tools responsibly and with proper authorization.
+
+So,in this repository i will go ahead and unleash my creativity!To build upon these foundations, explore additional scanning techniques, implement reporting functionalities, or even create a user-friendly graphical interface. The possibilities are endless when it comes to building your own network scanner tool with Python!
+
+Happy scanning!
